@@ -1,0 +1,5 @@
+replicaCount: 1
+namespace: default
+container:
+  image: mongo
+  tag: latest

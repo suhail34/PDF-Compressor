@@ -1,0 +1,18 @@
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-service
+  namespace: default
+spec:
+  selector:
+    app: producer-service
+  type: NodePort
+  ports:
+  - name: producer-service
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30001
+---
+
