@@ -1,32 +1,40 @@
-import fitz  # PyMuPDF
-import shutil
+import logging
+from confluent_kafka import Consumer
 
+bootstrap_servers = "kafka-release.default.svc.cluster.local:9092"
+topics = ['my-topic']
 
-def compress_pdf(input_path, output_path):
-    # Open the PDF file
-    pdf_document = fitz.open(input_path)
-    # Create a new PDF with compressed content
-    pdf_compressed = fitz.open()
-
-    # Iterate through pages and add them to the new PDF
-    for page_number in range(pdf_document.page_count):
-        page = pdf_document[page_number]
-        pix = page.get_pixmap()
-        pdf_compressed.insert_page(
-                page_number,
-                width=pix.width,
-                height=pix.height)
-        pdf_compressed[page_number].insert_text((0, 0), page.get_text())
-
-    # Save the compressed PDF
-    pdf_compressed.save(output_path)
-    pdf_document.close()
-    pdf_compressed.close()
-
+def main():
+    conf = {
+        'bootstrap.servers': bootstrap_servers,
+        'group.id': 'foo',
+        'auto.offset.reset': 'earliest',
+    }
+    consumer = Consumer(conf)
+    consumer.subscribe(topics)
+    try:
+        while True:
+            msg = consumer.poll(1.0)
+            if msg is None:
+                logging.basicConfig(level=logging.DEBUG)
+                logging.debug("In continue")
+                continue
+            elif msg.error():
+                logging.basicConfig(level=logging.ERROR)
+                logging.error("Error: %s".format(msg.error()))
+            else:
+                logging.basicConfig(level=logging.INFO)
+                logging.info("Consumed event from topic {topic}: key = {key} value = {value}".format(topic=msg.topic(),key=msg.key().decode('utf-8') if msg.key() is not None else None,value=msg.value().decode('utf-8') if msg.value() is not None else None))
+    except KeyboardInterrupt:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("In except")
+        pass
+    finally:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("In finally")
+        consumer.close()
 
 if __name__ == "__main__":
-    input_file = "Python.pdf"
-    output_file = "output_compressed.pdf"
-
-    compress_pdf(input_file, output_file)
-    print(f"PDF compression complete. Output file: {output_file}")
+    logging.basicConfig(level=logging.INFO)
+    logging.info("Running The Consumer Service")
+    main()

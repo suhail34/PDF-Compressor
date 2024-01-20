@@ -25,10 +25,11 @@ func UploadFileHandler(ctx *gin.Context) {
 		log.Print("Failed to produce message : ", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
-  _, err = databases.MongoConnect()
-  if err != nil {
-    log.Print("Failed to connect to mongodb: ", err)
-    ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-  }
+  log.Print("Message Produced successfully in kafka")
+	_, err = databases.MongoConnect()
+	if err != nil {
+		log.Print("Failed to connect to mongodb: ", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "Successfull"})
 }
