@@ -27,7 +27,7 @@
     <li><strong>Dependencies:</strong> MongoDB, GridFS.</li>
 </ul>
 
-<h3>4. Consumer Service (Golang)</h3>
+<h3>4. Consumer Service (Python)</h3>
 
 <ul>
     <li><strong>Description:</strong> Consumes messages from Kafka, indicating successful compression.</li>
@@ -37,7 +37,7 @@
 <h3>5. Database Cleaner Service (Python)</h3>
 
 <ul>
-    <li><strong>Description:</strong> Delete Files that are older from MongoDB GridFS</li>
+    <li><strong>Description:</strong> Scheduled job for deleting old files from MongoDB GridFS.</li>
     <li><strong>Dependencies:</strong> MongoDB, GridFS</li>
 </ul>
 
