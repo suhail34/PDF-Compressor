@@ -3,3 +3,9 @@ namespace: default
 container:
   image: mongo
   tag: latest
+secret:
+  root_username: c3VoYWlsMTI=
+  root_password: c3VoYWlsMzQ=
+  username: c3VoYWlsMTI=
+  password: c3VoYWlsMzQ=
+  users_list: c3VoYWlsMTI= 

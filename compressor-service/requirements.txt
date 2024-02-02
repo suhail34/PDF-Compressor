@@ -1,3 +1,5 @@
 confluent-kafka==2.3.0
+dnspython==2.5.0
+pymongo==4.6.1
 PyMuPDF==1.23.8
 PyMuPDFb==1.23.7

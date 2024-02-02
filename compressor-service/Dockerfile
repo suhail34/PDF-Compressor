@@ -6,6 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-Expose 8000
-
 ENTRYPOINT ["python", "main.py"]

@@ -29,21 +29,13 @@ spec:
       - name:  compressor-service
         image:  suhail12/compressor-service:latest
         imagePullPolicy: IfNotPresent
-            #        env:
-            #        - name: DB_HOST
-            #          valueFrom:
-            #            configMapKeyRef:
-            #              name: producer-service
-            #              key: DB_HOST
         ports:
         - containerPort:  8000
-            #        volumeMounts:
-            #        - name: localtime
-            #          mountPath: /etc/localtime
-            #      volumes:
-            #        - name: localtime
-            #          hostPath:
-            #            path: /usr/share/zoneinfo/Asia/Taipei
+        env:
+          - name: MONGO_USERNAME
+            value: c3VoYWlsMTI=
+          - name: MONGO_PASS
+            value: c3VoYWlsMzQ=
       restartPolicy: Always
 ---
 

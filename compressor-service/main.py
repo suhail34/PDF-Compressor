@@ -1,16 +1,13 @@
 import logging
-from confluent_kafka import Consumer
+from utils.compress import compress_pdf
+from connections.kafkaConnections import KafkaConnections
 
-bootstrap_servers = "kafka-release.default.svc.cluster.local:9092"
 topics = ['my-topic']
 
+
 def main():
-    conf = {
-        'bootstrap.servers': bootstrap_servers,
-        'group.id': 'foo',
-        'auto.offset.reset': 'earliest',
-    }
-    consumer = Consumer(conf)
+    connection = KafkaConnections()
+    consumer = connection.get_consumer()
     consumer.subscribe(topics)
     try:
         while True:
@@ -24,15 +21,17 @@ def main():
                 logging.error("Error: %s".format(msg.error()))
             else:
                 logging.basicConfig(level=logging.INFO)
-                logging.info("Consumed event from topic {topic}: key = {key} value = {value}".format(topic=msg.topic(),key=msg.key().decode('utf-8') if msg.key() is not None else None,value=msg.value().decode('utf-8') if msg.value() is not None else None))
+                logging.info("Consumed event from topic {topic}: key = {key} value = {value}".format(topic=msg.topic(), key=msg.key().decode(
+                    'utf-8') if msg.key() is not None else None, value=msg.value().decode('utf-8') if msg.value() is not None else None))
+                compress_pdf(msg.key().decode('utf-8') ,msg.value().decode('utf-8'))
     except KeyboardInterrupt:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("In except")
-        pass
     finally:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("In finally")
         consumer.close()
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

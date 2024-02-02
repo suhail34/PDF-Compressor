@@ -6,5 +6,6 @@ import (
 )
 
 func SetupRoutes(app *gin.Engine) {
-  app.GET("/api/files", handlers.UploadFileHandler)
+  app.POST("/api/files", handlers.UploadFileHandler)
+  app.GET("/api/:id", handlers.DownloadHandler)
 }
