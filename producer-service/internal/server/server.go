@@ -9,9 +9,9 @@ import (
 
 func NewServer() *gin.Engine {
 	app := gin.Default()
-  config := cors.DefaultConfig()
-  config.AllowOrigins = []string{"http://192.168.49.2:30002"}
-  app.Use(cors.New(config))
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://192.168.49.2:30002"}
+	app.Use(cors.New(config))
 	app.Use(middlewares.RateLimiterMiddleware)
 	routes.SetupRoutes(app)
 	return app

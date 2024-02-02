@@ -1,0 +1,24 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: delete-old-files 
+  namespace: default
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: delete-old-files 
+            image: suhail12/dbclean-service:latest
+            command: ["python", "main.py"]
+            env:
+              - name: MONGO_USERNAME
+                value: c3VoYWlsMTI=
+              - name: MONGO_PASS
+                value: c3VoYWlsMzQ=
+          restartPolicy: OnFailure
+---
+

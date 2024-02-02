@@ -34,6 +34,13 @@
     <li><strong>Dependencies:</strong> Confluent Kafka.</li>
 </ul>
 
+<h3>5. Database Cleaner Service (Python)</h3>
+
+<ul>
+    <li><strong>Description:</strong> Delete Files that are older from MongoDB GridFS</li>
+    <li><strong>Dependencies:</strong> MongoDB, GridFS</li>
+</ul>
+
 <br>
 
   
@@ -99,7 +106,11 @@ kubectl apply -f producer-service/manifests/
 kubectl apply -f compressor-service/manifests/
 ```
 
-  
+<p>10. Run DB Cleaner Service using command</p>
+
+```
+kubectl apply -f DBClean-service/manifests/
+```
   
 <h2>💻 Built with</h2>
 
